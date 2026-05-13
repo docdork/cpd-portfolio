@@ -4,12 +4,12 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../router";
 
 
-type Props = NativeStackScreenProps<RootStackParamList, "PersonalDetailsScreen">;
+type Props = NativeStackScreenProps<RootStackParamList>;
 
 export default function PersonalDetailsScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
-      <Text>Personal Details Screen</Text>
+      <Text >Personal Details Screen</Text>
       <Button
         title="Home"
         onPress={() => navigation.navigate("HomeScreen")}

@@ -4,23 +4,15 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../router";
 
-type Props = NativeStackScreenProps<RootStackParamList>;
+type Props = NativeStackScreenProps<RootStackParamList, "HomeScreen">;
 
-export default function HomeScreen({ navigation }: Props) {
+export default function CPDInputScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
+      <Text>CPD Input Screen</Text>
       <Button
-        title="Personal Details"
-        onPress={() => navigation.navigate("PersonalDetailsScreen")}
-      />
-      <Button
-        title="CPD List"
-        onPress={() => navigation.navigate("CPDListScreen")}
-      />
-      <Button
-        title="CPD Input"
-        onPress={() => navigation.navigate("CPDInputScreen")}
+        title="Home"
+        onPress={() => navigation.navigate("HomeScreen")}
       />
       <StatusBar style="auto" />
     </View>
