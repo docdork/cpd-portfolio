@@ -1,6 +1,8 @@
-export type RootStackParamList = {
-  HomeScreen: undefined;
-  PersonalDetailsScreen: undefined;
-  CPDInputScreen: undefined;
-  CPDListScreen: undefined;
+
+
+export type Routes = {
+  Home: undefined;
+  PersonalDetails: undefined;
+  CPDInput: undefined;
+  CPDList: undefined;
 };

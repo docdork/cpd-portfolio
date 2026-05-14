@@ -1,37 +1,33 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View } from "react-native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../router";
+import { Pressable, Text, View } from "react-native";
 
-type Props = NativeStackScreenProps<RootStackParamList>;
+import styles from "../styles";
 
-export default function HomeScreen({ navigation }: Props) {
+export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Personal Details"
+      <Text style={styles.title}>Home Screen</Text>
+
+      <Pressable
         onPress={() => navigation.navigate("PersonalDetailsScreen")}
-      />
-      <Button
-        title="CPD List"
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>Personal Details</Text>
+      </Pressable>
+      <Pressable
         onPress={() => navigation.navigate("CPDListScreen")}
-      />
-      <Button
-        title="CPD Input"
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>CPD List</Text>
+      </Pressable>
+      <Pressable
         onPress={() => navigation.navigate("CPDInputScreen")}
-      />
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>CPD Input</Text>
+      </Pressable>
       <StatusBar style="auto" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

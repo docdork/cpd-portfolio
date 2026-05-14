@@ -1,30 +1,19 @@
 import React from "react";
-import { StatusBar, View, Text, StyleSheet, Button } from "react-native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../router";
+import { StatusBar, View, Text, Button, Pressable } from "react-native";
 
+import styles from "../styles";
 
-type Props = NativeStackScreenProps<RootStackParamList>;
-
-export default function PersonalDetailsScreen({ navigation }: Props) {
+export default function PersonalDetailsScreen() {
   return (
     <View style={styles.container}>
-      <Text >Personal Details Screen</Text>
-      <Button
-        title="Home"
+      <Text style={styles.title}>Personal Details Screen</Text>
+      <Pressable
         onPress={() => navigation.navigate("HomeScreen")}
-      />
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>Go to Home</Text>
+      </Pressable>
       <StatusBar barStyle="default" />
     </View>
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
