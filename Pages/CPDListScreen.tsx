@@ -9,12 +9,7 @@ export default function CPDListScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>CPD List Screen</Text>
-      <Pressable
-        onPress={() => navigation.navigate("HomeScreen")}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>Go to Home</Text>
-      </Pressable>
+      
 
       <StatusBar style="auto" />
     </View>
