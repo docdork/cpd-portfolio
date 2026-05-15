@@ -17,11 +17,92 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
   },
+  personalDetailsContainer: {
+    backgroundColor: "#334082",
+    borderRadius: 12,
+    overflow: "hidden",
+    marginBottom: 16,
+    padding: 16,
+    // iOS shadow properties
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    // Android shadow property
+    elevation: 3,
+  },
+  personalDetailsContent: {
+    padding: 16,
+  },
+  personalDetailsTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#fff",
+  },
+  personalDetailsItem: {
+    fontSize: 16,
+    color: "#fff",
+    marginBottom: 5,
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
     color: "#fff",
+  },
+  homeTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 50,
+    color: "#fff",
+  },
+  text: {
+    fontSize: 16,
+    color: "#fff",
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: 20,
+    color: "#fff",
+    textAlign: "center",
+  },
+  description: {
+    fontSize: 16,
+    color: "#fff",
+    textAlign: "center",
+    width: "80%",
+  },
+  homeImage: {
+    width: "80%",
+    height: 200,
+    marginBottom: 20,
+  },
+    inputContainer: {
+    width: "80%",
+    marginBottom: 20,
+    backgroundColor: "#bff4fa",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  input: {
+    backgroundColor: "#bff4fa",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    fontSize: 16,
+    color: "#000",
+    marginBottom: 10,
+  },
+    datePickerContainer: {
+    width: "80%",
+    backgroundColor: "#bff4fa",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    marginBottom: 20,
   },
 });
 

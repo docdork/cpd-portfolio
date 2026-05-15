@@ -6,13 +6,25 @@ import HomeScreen from "./Pages/HomeScreen";
 import PersonalDetailsScreen from "./Pages/PersonalDetailsScreen";
 import CPDInputScreen from "./Pages/CPDInputScreen";
 import CPDListScreen from "./Pages/CPDListScreen";
+import { StatusBar } from "expo-status-bar";
 
 const Drawer = createDrawerNavigator<Routes>();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator>
+      <Drawer.Navigator
+        screenOptions={{
+          headerShown: true,
+          drawerType: "front",
+          headerStyle: { backgroundColor: "#023f4e" },
+          headerTintColor: "#fff",
+          headerTitleStyle: { fontWeight: "bold" },
+          drawerStyle: { backgroundColor: "#023f4e" },
+          drawerActiveTintColor: "#07e549",
+          drawerInactiveTintColor: "#05eeff",
+        }}
+      >
         <Drawer.Screen
           name="Home"
           component={HomeScreen}
@@ -34,6 +46,7 @@ export default function App() {
           options={{ title: "CPD List" }}
         />
       </Drawer.Navigator>
+      <StatusBar style="auto" />
     </NavigationContainer>
   );
 }
