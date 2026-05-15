@@ -12,6 +12,9 @@ export default function HomeScreen() {
         source={require("../assets/Cyber_&_Specialist_Operations_Command_logo.png")}
         style={styles.homeImage}
         resizeMode="contain"
+        alt="CSOC Logo"
+        accessibilityLabel="CSOC Logo"
+        accessibilityRole="image"
       />
       <Text style={styles.subtitle}>
         Manage your Continuing Professional Development
