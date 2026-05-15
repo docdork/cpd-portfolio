@@ -60,7 +60,7 @@ export default function CPDInputScreen() {
           }}
         />
       </View>
-      /
+      
 
       <Pressable
         style={({ pressed }) => [
