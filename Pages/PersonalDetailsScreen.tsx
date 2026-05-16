@@ -18,8 +18,7 @@ export default function PersonalDetailsScreen() {
   return (
     // Main container for the personal details screen
     <View style={styles.container}>
-
-      // Pressable component to display personal details and open edit modal
+      {/* Pressable component to display personal details and open edit modal */}
       <Pressable
         style={({ pressed }) => [
           styles.personalDetailsContainer,
@@ -52,7 +51,7 @@ export default function PersonalDetailsScreen() {
         </View>
       </Pressable>
 
-// Modal for editing personal details
+      {/* Modal for editing personal details */}
       <Modal
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
@@ -110,7 +109,7 @@ export default function PersonalDetailsScreen() {
         </View>
       </Modal>
 
-// Confirmation modal to confirm changes before saving
+      {/* Confirmation modal to confirm changes before saving */}
       <Modal
         visible={confirmationVisible}
         onRequestClose={() => setConfirmationVisible(false)}
@@ -149,7 +148,10 @@ export default function PersonalDetailsScreen() {
                     styles.button,
                     { backgroundColor: pressed ? "#023f4e" : "#047726" },
                   ]}
-                  onPress={() => [setConfirmationVisible(false), setModalVisible(false)] }
+                  onPress={() => [
+                    setConfirmationVisible(false),
+                    setModalVisible(false),
+                  ]}
                 >
                   <Text style={styles.buttonText}>No</Text>
                 </Pressable>

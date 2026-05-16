@@ -57,13 +57,10 @@ const sampleData = [
   },
 ];
 
-
-
 export default function CPDListScreen() {
   return (
     <View style={styles.container}>
-      
-      // FlatList to display the list of CPD competences using the Card component
+      {/* FlatList to display the list of CPD competences using the Card component */}
       <FlatList
         // onRefresh={() => alert("Refresh triggered!")}
         refreshing={false}

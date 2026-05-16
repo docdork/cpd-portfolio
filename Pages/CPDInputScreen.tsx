@@ -26,8 +26,7 @@ export default function CPDInputScreen() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-
-      // Title and input fields for competence name and expiry date
+      {/* Title and input fields for competence name and expiry date */}
       <Text style={styles.title}>Competence:</Text>
       <View style={styles.inputContainer}>
         <Picker
@@ -62,8 +61,8 @@ export default function CPDInputScreen() {
           }}
         />
       </View>
-      
-// Save button to log the entered competence and expiry date
+
+      {/* Save button to log the entered competence and expiry date */}
       <Pressable
         style={({ pressed }) => [
           styles.button,

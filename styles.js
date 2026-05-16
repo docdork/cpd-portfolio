@@ -9,7 +9,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 10,
-    padding: 10,
+    padding: 20,
+    width: "80%"  ,
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#007AFF",
     borderRadius: 5,
   },
@@ -93,6 +96,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     fontSize: 16,
+
+
     color: "#000",
     marginBottom: 10,
   },
