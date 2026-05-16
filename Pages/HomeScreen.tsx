@@ -6,7 +6,10 @@ import styles from "../styles";
 
 export default function HomeScreen() {
   return (
+    
     <View style={styles.container}>
+      
+      // Welcome message, logo, and instructions for the home screen
       <Text style={[styles.homeTitle]}>Welcome to the CPD App</Text>
       <Image
         source={require("../assets/Cyber_&_Specialist_Operations_Command_logo.png")}

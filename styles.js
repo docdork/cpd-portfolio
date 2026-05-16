@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     height: 200,
     marginBottom: 20,
   },
-    inputContainer: {
+  inputContainer: {
     width: "80%",
     marginBottom: 20,
     backgroundColor: "#bff4fa",
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     color: "#000",
     marginBottom: 10,
   },
-    datePickerContainer: {
+  datePickerContainer: {
     width: "80%",
     backgroundColor: "#bff4fa",
     borderRadius: 8,
@@ -104,6 +104,74 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginBottom: 20,
   },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "#000000",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#fff",
+  },
+  modalContent: {
+    backgroundColor: "#334082",
+    borderRadius: 12,
+    overflow: "hidden",
+    padding: 16,
+    width: "80%",
+    fontSize: 16,
+    color: "#fff",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  modalLabel: {
+    fontSize: 16,
+    color: "#fff",    marginBottom: 5,
+    textAlign: "left",
+  },
+  confirmationContainer: {
+    backgroundColor: "#334082",
+    borderRadius: 12,
+    overflow: "hidden",
+    padding: 16,
+    width: "80%",
+    fontSize: 16,
+    color: "#fff",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+confirmationContent: {
+    fontSize: 16,
+    color: "#fff",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+confirmationTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#fff",
+  },
+confirmationMessage: {
+    fontSize: 16,
+    color: "#fff",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+confirmationButtons: {
+    padding: 10,
+    backgroundColor: "#007AFF",
+    borderRadius: 5,
+  },
+  confirmationButtonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+
+
 });
 
 export default styles;

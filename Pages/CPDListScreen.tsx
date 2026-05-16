@@ -3,6 +3,7 @@ import { View, FlatList } from "react-native";
 import { Card } from "../Components/Card";
 import styles from "../styles";
 
+//  Sample data for CPD competences - replace with dynamic data source in future
 const sampleData = [
   {
     id: "1",
@@ -61,6 +62,8 @@ const sampleData = [
 export default function CPDListScreen() {
   return (
     <View style={styles.container}>
+      
+      // FlatList to display the list of CPD competences using the Card component
       <FlatList
         // onRefresh={() => alert("Refresh triggered!")}
         refreshing={false}
