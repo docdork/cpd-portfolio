@@ -11,6 +11,9 @@ import { StatusBar } from "expo-status-bar";
 const Drawer = createDrawerNavigator<Routes>();
 
 export default function App() {
+  
+
+
   return (
     <NavigationContainer>
       <Drawer.Navigator

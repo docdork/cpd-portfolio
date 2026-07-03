@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#fff",
+    color: "#ffffff",
   },
   personalDetailsItem: {
     fontSize: 16,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: "#fff",
+    color: "#000000",
   },
   subtitle: {
     fontSize: 18,
@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     width: "80%",
     marginBottom: 20,
     backgroundColor: "#bff4fa",
+    color: "#000",
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 10,
@@ -103,7 +104,8 @@ const styles = StyleSheet.create({
   },
   datePickerContainer: {
     width: "80%",
-    backgroundColor: "#bff4fa",
+    backgroundColor: "#244347",
+    color: "#000",
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 10,
@@ -112,6 +114,8 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     backgroundColor: "#000000",
+    color: "#000000",
+    alignItems: "center",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -175,6 +179,11 @@ confirmationButtons: {
     color: "#fff",
     fontSize: 16,
   },
+  picker: {
+    color: "#000000",
+    fontSize: 16,
+    backgroundColor: "#bff4fa",
+  }
 
 
 });

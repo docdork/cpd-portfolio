@@ -30,6 +30,7 @@ export default function CPDInputScreen() {
       <Text style={styles.title}>Competence:</Text>
       <View style={styles.inputContainer}>
         <Picker
+          style={styles.picker}
           selectedValue={competenceName}
           onValueChange={(itemValue) => {
             setCompetenceName(itemValue);

@@ -43,10 +43,11 @@ export const Card: React.FC<CardProps> = ({
 
 const styles = StyleSheet.create({
   cardContainer: {
+    width: 300,
     backgroundColor: "#0ccf1c",
     borderRadius: 12,
     overflow: "hidden",
-    marginBottom: 16,
+    marginTop: 16,
     // iOS shadow properties
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 2 },

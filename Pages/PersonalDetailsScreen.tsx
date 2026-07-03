@@ -65,6 +65,7 @@ export default function PersonalDetailsScreen() {
             <TextInput
               style={styles.input}
               placeholder="Name"
+              placeholderTextColor="#8599a6"
               defaultValue={name}
               onChangeText={setName}
             />
@@ -72,6 +73,7 @@ export default function PersonalDetailsScreen() {
             <TextInput
               style={styles.input}
               placeholder="Service Number"
+              placeholderTextColor="#8599a6"
               defaultValue={serviceNumber}
               onChangeText={setServiceNumber}
             />
@@ -79,6 +81,7 @@ export default function PersonalDetailsScreen() {
             <TextInput
               style={styles.input}
               placeholder="Rank"
+              placeholderTextColor="#8599a6"
               defaultValue={rank}
               onChangeText={setRank}
             />
@@ -86,6 +89,7 @@ export default function PersonalDetailsScreen() {
             <TextInput
               style={styles.input}
               placeholder="Unit"
+              placeholderTextColor="#8599a6"
               defaultValue={unit}
               onChangeText={setUnit}
             />
@@ -93,6 +97,7 @@ export default function PersonalDetailsScreen() {
             <TextInput
               style={styles.input}
               placeholder="Email"
+              placeholderTextColor="#8599a6"
               defaultValue={email}
               onChangeText={setEmail}
             />

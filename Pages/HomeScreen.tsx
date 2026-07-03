@@ -41,11 +41,12 @@ export default function HomeScreen() {
           <Text style={styles.modalTitle}>Login</Text>
           <View style={styles.modalContent}>
             <Text style={styles.modalLabel}>Username</Text>
-            <TextInput style={styles.input} placeholder="Username" />
+            <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#8599a6"/>
             <Text style={styles.modalLabel}>Password</Text>
             <TextInput
               style={styles.input}
               placeholder="Password"
+              placeholderTextColor="#8599a6"
               secureTextEntry={true}
             />
           </View>
