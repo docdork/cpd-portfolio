@@ -26,19 +26,22 @@ export default function CPDInputScreen() {
 
   const submitCPDEntry = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/competencies", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: competenceName,
+            expDate: expiryDate,
+          }),
         },
-        body: JSON.stringify({
-          title: competenceName,
-          expDate: expiryDate,
-        }),
-      });
+      );
       if (response.ok) {
         setModalVisible(true);
-      }else {
+      } else {
         console.error("Failed to submit CPD entry:", response.statusText);
         setErrorModalVisible(true);
       }

@@ -14,7 +14,9 @@ export default function CPDListScreen() {
   const [competencies, setCompetencies] = useState<Competency[]>([]);
   async function fetchCompetencies() {
     try {
-      const response = await fetch(`http://localhost:4000/api/competencies`);
+      const response = await fetch(
+        `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies`,
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -33,7 +35,6 @@ export default function CPDListScreen() {
           expDate: new Date(item.expDate),
         })),
       );
-
     } catch (error) {
       console.error("Error fetching competencies:", error);
     }
@@ -51,8 +52,7 @@ export default function CPDListScreen() {
         refreshing={false}
         data={competencies}
         renderItem={({ item }) => (
-          <Card key={item.id} competence={item.title} expDate={item.expDate} 
-          />
+          <Card key={item.id} competence={item.title} expDate={item.expDate} />
         )}
       />
     </View>
