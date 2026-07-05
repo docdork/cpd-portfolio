@@ -1,8 +1,9 @@
 import React, { JSX } from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, Modal, Pressable, Text } from "react-native";
 import { Card } from "../Components/Card";
 import styles from "../styles";
 import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 interface Competency {
   id: string;
@@ -12,6 +13,25 @@ interface Competency {
 
 export default function CPDListScreen() {
   const [competencies, setCompetencies] = useState<Competency[]>([]);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const navigation = useNavigation();
+
+  function clearCompetencies() {
+    setCompetencies([]);
+  }
+
+  useEffect(() => {
+    const refresh = navigation.addListener("focus", () => {
+      console.log("Screen is focused");
+      clearCompetencies();
+      fetchCompetencies(); // Fetch the competencies when the screen is focused
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return refresh;
+  }, [navigation]);
+
   async function fetchCompetencies() {
     try {
       const response = await fetch(
@@ -46,15 +66,36 @@ export default function CPDListScreen() {
 
   return (
     <View style={styles.container}>
-      {/* FlatList to display the list of CPD competences using the Card component */}
+      {/* <Pressable
+        onPress={() => {
+          clearCompetencies();
+          fetchCompetencies();
+        }}
+        style={styles.button}
+      >
+        <Text style={styles.title}>Refresh List</Text>
+      </Pressable> */}
       <FlatList
         showsVerticalScrollIndicator={false}
+        onRefresh={fetchCompetencies}
         refreshing={false}
         data={competencies}
         renderItem={({ item }) => (
           <Card key={item.id} competence={item.title} expDate={item.expDate} />
         )}
       />
+      <Modal
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        {/* Modal content goes here */}
+        <Pressable onPress={() => setModalVisible(false)}>
+          <Text>Update</Text>
+        </Pressable>
+        <Pressable onPress={() => setModalVisible(false)}>
+          <Text>Delete</Text>
+        </Pressable>
+      </Modal>
     </View>
   );
 }
