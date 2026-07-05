@@ -135,6 +135,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     marginBottom: 20,
+    alignItems: "center",
+  },
+  modalItem: {
+    fontSize: 16,
+    color: "#fff",
+    marginBottom: 5,
+    textAlign: "left",  
   },
   modalLabel: {
     fontSize: 16,
