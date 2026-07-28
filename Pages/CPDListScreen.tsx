@@ -1,9 +1,20 @@
 import React, { JSX } from "react";
-import { View, FlatList, Modal, Pressable, Text } from "react-native";
+import {
+  View,
+  FlatList,
+  Modal,
+  Pressable,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import { Card } from "../Components/Card";
 import styles from "../styles";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import DateTimePicker, {
+  DateType,
+  useDefaultStyles,
+} from "react-native-ui-datepicker";
 
 interface Competency {
   id: string;
@@ -11,11 +22,24 @@ interface Competency {
   expDate: Date;
 }
 
+interface CompetencyApiItem {
+  id?: string;
+  _id?: string;
+  title: string;
+  expDate: string;
+}
+
 export default function CPDListScreen() {
   const [competencies, setCompetencies] = useState<Competency[]>([]);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [selectedCompetence, setSelectedCompetence] =
+    useState<Competency | null>(null);
+  const [expiryDate, setExpiryDate] = useState<DateType>();
+  const [error, setError] = useState(false);
 
   const navigation = useNavigation();
+  const defaultStyles = useDefaultStyles();
 
   function clearCompetencies() {
     setCompetencies([]);
@@ -23,9 +47,9 @@ export default function CPDListScreen() {
 
   useEffect(() => {
     const refresh = navigation.addListener("focus", () => {
-      console.log("Screen is focused");
       clearCompetencies();
-      fetchCompetencies(); // Fetch the competencies when the screen is focused
+      setIsLoading(true);
+      fetchCompetencies().finally(() => setIsLoading(false));
     });
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
@@ -47,16 +71,20 @@ export default function CPDListScreen() {
         throw new TypeError("Oops, we haven't got JSON!");
       }
 
-      const data = await response.json();
+      const data: CompetencyApiItem[] = await response.json();
       setCompetencies(
-        data.map((item: any) => ({
-          id: item.id,
-          title: item.title,
-          expDate: new Date(item.expDate),
-        })),
+        data
+          .map((item) => ({
+            id: item.id ?? item._id,
+            title: item.title,
+            expDate: new Date(item.expDate),
+          }))
+          .filter((item): item is Competency => Boolean(item.id)),
       );
+      console.log("Fetched competencies:", data);
     } catch (error) {
       console.error("Error fetching competencies:", error);
+      setError(true);
     }
   }
 
@@ -66,35 +94,128 @@ export default function CPDListScreen() {
 
   return (
     <View style={styles.container}>
-      {/* <Pressable
-        onPress={() => {
-          clearCompetencies();
-          fetchCompetencies();
-        }}
-        style={styles.button}
-      >
-        <Text style={styles.title}>Refresh List</Text>
-      </Pressable> */}
+      {isLoading && (
+        <>
+          <Text style={styles.title}>Loading...</Text>
+          <ActivityIndicator size="large" />
+        </>
+      )}
+
+      // FlatList to display the list of competencies
       <FlatList
         showsVerticalScrollIndicator={false}
         onRefresh={fetchCompetencies}
-        refreshing={false}
+        refreshing={isLoading}
         data={competencies}
         renderItem={({ item }) => (
-          <Card key={item.id} competence={item.title} expDate={item.expDate} />
+          <Pressable
+            onPress={() => {
+              setSelectedCompetence(item);
+              setUpdateModalVisible(true);
+              console.log("Selected competence:", item);
+              console.log("Selected competence ID:", item.id);
+            }}
+          >
+            <Card
+              key={item.id}
+              competence={item.title}
+              expDate={item.expDate}
+            />
+          </Pressable>
         )}
       />
+
+      //Update Modal to update the date of a competence or delete it from the list
       <Modal
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
+        visible={updateModalVisible}
+        onRequestClose={() => setUpdateModalVisible(false)}
       >
-        {/* Modal content goes here */}
-        <Pressable onPress={() => setModalVisible(false)}>
-          <Text>Update</Text>
-        </Pressable>
-        <Pressable onPress={() => setModalVisible(false)}>
-          <Text>Delete</Text>
-        </Pressable>
+        <View style={styles.modalContainer}>
+          {/* Update Modal content goes here */}
+          <Text style={styles.title}>{selectedCompetence?.title}</Text>
+          <Text style={styles.title}>
+            {selectedCompetence?.expDate.toDateString()}
+          </Text>
+          <View style={styles.datePickerContainer}>
+            <DateTimePicker
+              locale="en-GB"
+              styles={defaultStyles}
+              mode="single"
+              date={expiryDate}
+              onChange={({ date }) => {
+                setExpiryDate(date);
+                console.log("Selected Expiry Date:", date);
+              }}
+            />
+          </View>
+          <Pressable
+            onPress={() => {
+              if (selectedCompetence && expiryDate) {
+                console.log(selectedCompetence.id, expiryDate);
+                fetch(
+                  `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies/${selectedCompetence.id}`,
+                  {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      expDate: expiryDate,
+                    }),
+
+                  },
+
+                ).then(() => {
+                  setUpdateModalVisible(false);
+                  fetchCompetencies();
+                });
+              }
+            }}
+            style={styles.button}
+          >
+            <Text>Update</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.button, { backgroundColor: "red" }]}
+            onPress={() => {
+              if (selectedCompetence) {
+                fetch(
+                  `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies/${selectedCompetence.id}`,
+                  {
+                    method: "DELETE",
+                  },
+                ).then(() => {
+                  setUpdateModalVisible(false);
+                  fetchCompetencies();
+                });
+              }
+            }}
+          >
+            <Text>Delete</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.button, { backgroundColor: "lightblue" }]}
+            onPress={() => setUpdateModalVisible(false)}
+          >
+            <Text>Go back</Text>
+          </Pressable>
+        </View>
+      </Modal>
+
+      // Error Modal to display an error message when fetching competencies fails
+      <Modal
+        visible={error}
+        onRequestClose={() => setError(false)}    
+      >
+        <View style={styles.container}>
+          <Text style={styles.title}>Error fetching competencies.</Text>
+          <Pressable
+            style={[styles.button, { backgroundColor: "lightblue" }]}
+            onPress={() => setError(false)}
+          >
+            <Text>Go back</Text>
+          </Pressable>
+        </View>
       </Modal>
     </View>
   );

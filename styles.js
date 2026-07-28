@@ -190,7 +190,12 @@ confirmationButtons: {
     color: "#000000",
     fontSize: 16,
     backgroundColor: "#bff4fa",
-  }
+  },
+  loadingText: {
+    fontSize: 18,
+    color: "#fff",
+    marginBottom: 20,
+  },
 
 
 });
