@@ -3,7 +3,8 @@
 
 export type Routes = {
   Home: undefined;
-  PersonalDetails: undefined;
   CPDInput: undefined;
   CPDList: undefined;
+  SignUp: undefined;
+  Login: undefined;
 };

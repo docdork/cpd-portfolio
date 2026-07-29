@@ -1,13 +1,13 @@
 import { NavigationContainer } from "@react-navigation/native";
-
+import Login from "./Pages/Login";
 import { Routes } from "./router";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "./Pages/HomeScreen";
-import PersonalDetailsScreen from "./Pages/PersonalDetailsScreen";
 import CPDInputScreen from "./Pages/CPDInputScreen";
 import CPDListScreen from "./Pages/CPDListScreen";
 import { StatusBar } from "expo-status-bar";
 import { AuthContextProvider } from "./context/AuthContext";
+import SignUp from "./Pages/SignUp";
 
 const Drawer = createDrawerNavigator<Routes>();
 
@@ -33,10 +33,16 @@ export default function App() {
             options={{ title: "Home" }}
           />
           <Drawer.Screen
-            name="PersonalDetails"
-            component={PersonalDetailsScreen}
-            options={{ title: "Personal Details" }}
+            name="Login"
+            component={Login}
+            options={{ title: "Login" }}
           />
+          <Drawer.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{ title: "Sign Up" }}
+          />
+          
           <Drawer.Screen
             name="CPDInput"
             component={CPDInputScreen}

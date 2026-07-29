@@ -1,13 +1,25 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, Pressable, Modal, TextInput } from "react-native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 
 import styles from "../styles";
 import Logo from "../Components/Logo";
 
+type RootStackParamList = {
+  SignUp: undefined;
+  Login: undefined;
+};
+
 export default function HomeScreen() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [loggingIn, setLoggingIn] = useState(false);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const logout = () => {
+    // Handle logout logic here, e.g., clearing user data, resetting state, etc.
+    console.log("User logged out");
+    setLoggedIn(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -23,44 +35,37 @@ export default function HomeScreen() {
       <Text style={styles.description}>
         Use the menu in the top left corner to navigate.
       </Text>
-      <Pressable onPress={() => {
-        loggedIn ? setLoggedIn(false) :  setLoggingIn(true);
-      } } style={({ pressed }) => [
-        styles.button,
-        { backgroundColor: pressed ? "#023f4e" : "#047726" },
-      ]}>
+      <Pressable
+        onPress={() => {
+          if (loggedIn) {
+            logout();
+          }
+          if (!loggedIn) {
+            navigation.navigate("Login");
+          }
+
+        }}
+        style={({ pressed }) => [
+          styles.button,
+          { backgroundColor: pressed ? "#023f4e" : "#047726" },
+        ]}
+      >
         <Text style={styles.buttonText}>{loggedIn ? "Logout" : "Login"}</Text>
       </Pressable>
-      <Modal
-        visible={loggingIn}
-        onRequestClose={() => setLoggedIn(false)}
-        animationType="slide"
-        transparent={false}
+      {!loggedIn && (
+      <Pressable
+        style={({ pressed }) => [
+          styles.button,
+          { backgroundColor: pressed ? "#023f4e" : "#047726" },
+        ]}
+        onPress={() => {
+          // Navigate to the SignUp screen when the button is pressed
+          navigation.navigate("SignUp");
+        }}
       >
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>Login</Text>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalLabel}>Username</Text>
-            <TextInput style={styles.input} placeholder="Username" placeholderTextColor="#8599a6"/>
-            <Text style={styles.modalLabel}>Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              placeholderTextColor="#8599a6"
-              secureTextEntry={true}
-            />
-          </View>
-          <Pressable
-            style={({ pressed }) => [
-              styles.button,
-              { backgroundColor: pressed ? "#023f4e" : "#047726" },
-            ]}
-            onPress={() => [setLoggedIn(true), setLoggingIn(false)]}
-          >
-            <Text style={styles.buttonText}>Login</Text>
-          </Pressable>
-        </View>
-      </Modal>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </Pressable>
+      )}
       <StatusBar style="auto" />
     </View>
   );
