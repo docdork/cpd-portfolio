@@ -1,6 +1,12 @@
-
 import React, { useState } from "react";
-import { View, TextInput, Pressable, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TextInput,
+  Pressable,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import styles from "../styles";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 
@@ -19,37 +25,49 @@ const Login = () => {
 
   const handleLogin = () => {
     // Handle login logic here, e.g., form validation, API call, etc.
-    console.log("Login pressed with username:", username, "password:", password);
+    console.log(
+      "Login pressed with username:",
+      username,
+      "password:",
+      password,
+    );
     setLoggedIn(true);
     setLoggingIn(false);
     // Navigate to the Home screen after successful login
     navigation.navigate("Home");
-    
   };
 
-    return (
-    <View style={styles.container}>
-      <TextInput
-        style={[styles.input, { width: "80%" }]}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+  return (
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <Text style={styles.title}>Login</Text>
+        <TextInput
+          style={[styles.input, { width: "80%" }]}
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
         />
         <TextInput
-        style={[styles.input, { width: "80%" }]}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
+          style={[styles.input, { width: "80%" }]}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
         />
         <Pressable
-        style={[styles.button, { backgroundColor: "#047726", padding: 10, borderRadius: 5 }]}
-        onPress={handleLogin}
+          style={[
+            styles.button,
+            { backgroundColor: "#047726", padding: 10, borderRadius: 5 },
+          ]}
+          onPress={handleLogin}
         >
-            <Text style={{ color: "white", padding: 10 }}>Login</Text>
+          <Text style={{ color: "white", padding: 10 }}>Login</Text>
         </Pressable>
-    </View>
-    );
+      </KeyboardAvoidingView>
+    
+  );
 };
 
 export default Login;
