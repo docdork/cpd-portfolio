@@ -19,7 +19,6 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
-  const [loggingIn, setLoggingIn] = useState(false);
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
@@ -32,7 +31,6 @@ const Login = () => {
       password,
     );
     setLoggedIn(true);
-    setLoggingIn(false);
     // Navigate to the Home screen after successful login
     navigation.navigate("Home");
   };
