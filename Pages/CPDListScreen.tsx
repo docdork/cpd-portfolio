@@ -30,6 +30,7 @@ interface CompetencyApiItem {
 }
 
 export default function CPDListScreen() {
+  // State variables to manage competencies, loading state, modal visibility, selected competence, expiry date, and error state
   const [competencies, setCompetencies] = useState<Competency[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
@@ -45,6 +46,7 @@ export default function CPDListScreen() {
     setCompetencies([]);
   }
 
+  // useEffect to fetch competencies when the screen is focused
   useEffect(() => {
     const refresh = navigation.addListener("focus", () => {
       clearCompetencies();
@@ -56,6 +58,7 @@ export default function CPDListScreen() {
     return refresh;
   }, [navigation]);
 
+  // Function to fetch competencies from the backend API
   async function fetchCompetencies() {
     try {
       const response = await fetch(
