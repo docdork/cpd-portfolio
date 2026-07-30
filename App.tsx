@@ -6,7 +6,7 @@ import HomeScreen from "./Pages/HomeScreen";
 import CPDInputScreen from "./Pages/CPDInputScreen";
 import CPDListScreen from "./Pages/CPDListScreen";
 import { StatusBar } from "expo-status-bar";
-import { AuthContextProvider } from "./context/AuthContext";
+import { AuthContext, AuthContextProvider } from "./context/AuthContext";
 import SignUp from "./Pages/SignUp";
 
 const Drawer = createDrawerNavigator<Routes>();
@@ -32,16 +32,7 @@ export default function App() {
             component={HomeScreen}
             options={{ title: "Home" }}
           />
-          <Drawer.Screen
-            name="Login"
-            component={Login}
-            options={{ title: "Login" }}
-          />
-          <Drawer.Screen
-            name="SignUp"
-            component={SignUp}
-            options={{ title: "Sign Up" }}
-          />
+          
           
           <Drawer.Screen
             name="CPDInput"
@@ -53,6 +44,16 @@ export default function App() {
             component={CPDListScreen}
             options={{ title: "CPD List" }}
           />
+          <Drawer.Screen
+            name="Login"
+            component={Login}
+            options={{ title: "Login" }}
+          />
+            <Drawer.Screen
+              name="SignUp"
+              component={SignUp}
+              options={{ title: "Sign Up" }}
+            />
         </Drawer.Navigator>
         <StatusBar style="auto" />
       </NavigationContainer>

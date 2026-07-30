@@ -1,4 +1,5 @@
 import { useState } from "react";
+import * as SecureStore from "expo-secure-store";
 
 import {useAuthContext} from "./useAuthContext";
 
@@ -25,7 +26,10 @@ export const useSignup = () => {
 
     if (response.ok) {
       // save the user to local storage
-      localStorage.setItem("user", JSON.stringify(json));
+      await SecureStore.setItemAsync("user", JSON.stringify(json));
+
+      const user = await SecureStore.getItemAsync("user");
+      console.log("User saved to SecureStore:", user);
         
         // update the auth context
         dispatch({ type: "LOGIN", payload: json });
