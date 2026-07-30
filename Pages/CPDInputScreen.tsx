@@ -13,6 +13,7 @@ import DateTimePicker, {
   DateType,
   useDefaultStyles,
 } from "react-native-ui-datepicker";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 import styles from "../styles";
 import { Picker } from "@react-native-picker/picker";
@@ -23,7 +24,7 @@ export default function CPDInputScreen() {
   const [expiryDate, setExpiryDate] = useState<DateType>();
   const [modalVisible, setModalVisible] = useState(false);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
-
+  const { user } = useAuthContext();
   const submitCPDEntry = async () => {
     try {
       const response = await fetch(
@@ -32,6 +33,7 @@ export default function CPDInputScreen() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
           },
           body: JSON.stringify({
             title: competenceName,

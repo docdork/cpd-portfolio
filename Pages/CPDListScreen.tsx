@@ -15,6 +15,7 @@ import DateTimePicker, {
   DateType,
   useDefaultStyles,
 } from "react-native-ui-datepicker";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 interface Competency {
   id: string;
@@ -39,22 +40,28 @@ export default function CPDListScreen() {
   const [expiryDate, setExpiryDate] = useState<DateType>();
   const [error, setError] = useState(false);
 
+  const { user } = useAuthContext();
+
   const navigation = useNavigation();
   const defaultStyles = useDefaultStyles();
+
+  console.log("User token:", user?.token);
+  useEffect(() => {
+    setCompetencies([]);
+  }, []);
 
   function clearCompetencies() {
     setCompetencies([]);
   }
 
-  // useEffect to fetch competencies when the screen is focused
-  useEffect(() => {
-    const refresh = navigation.addListener("focus", () => {
-      clearCompetencies();
-      setIsLoading(true);
-      fetchCompetencies().finally(() => setIsLoading(false));
-    });
+  // Refresh the competencies list when the screen gains focus
+  const refresh = navigation.addListener("focus", () => {
+    clearCompetencies();
+    setIsLoading(true);
+    fetchCompetencies().finally(() => setIsLoading(false));
+  });
 
-    // Return the function to unsubscribe from the event so it gets removed on unmount
+  useEffect(() => {
     return refresh;
   }, [navigation]);
 
@@ -63,6 +70,11 @@ export default function CPDListScreen() {
     try {
       const response = await fetch(
         `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        },
       );
 
       if (!response.ok) {
@@ -82,7 +94,8 @@ export default function CPDListScreen() {
             title: item.title,
             expDate: new Date(item.expDate),
           }))
-          .filter((item): item is Competency => Boolean(item.id)),
+          .filter((item): item is Competency => Boolean(item.id))
+          .sort((a, b) => a.expDate.getTime() - b.expDate.getTime()),
       );
       console.log("Fetched competencies:", data);
     } catch (error) {
@@ -92,8 +105,10 @@ export default function CPDListScreen() {
   }
 
   useEffect(() => {
-    fetchCompetencies();
-  }, []);
+    if (user) {
+      fetchCompetencies();
+    }
+  }, [user]);
 
   return (
     <View style={styles.container}>
@@ -103,8 +118,12 @@ export default function CPDListScreen() {
           <ActivityIndicator size="large" />
         </>
       )}
-
-      // FlatList to display the list of competencies
+      {error && (
+        <Text style={{ color: "red", marginBottom: 10 }}>
+          Error fetching competencies. Please try again later. {error}
+        </Text>
+      )}
+      {/* FlatList to display the list of competencies */}
       <FlatList
         showsVerticalScrollIndicator={false}
         onRefresh={fetchCompetencies}
@@ -115,8 +134,6 @@ export default function CPDListScreen() {
             onPress={() => {
               setSelectedCompetence(item);
               setUpdateModalVisible(true);
-              console.log("Selected competence:", item);
-              console.log("Selected competence ID:", item.id);
             }}
           >
             <Card
@@ -127,8 +144,7 @@ export default function CPDListScreen() {
           </Pressable>
         )}
       />
-
-      //Update Modal to update the date of a competence or delete it from the list
+      {/* Update Modal to update the date of a competence or delete it from the list */}
       <Modal
         visible={updateModalVisible}
         onRequestClose={() => setUpdateModalVisible(false)}
@@ -161,13 +177,12 @@ export default function CPDListScreen() {
                     method: "PATCH",
                     headers: {
                       "Content-Type": "application/json",
+                      Authorization: `Bearer ${user.token}`,
                     },
                     body: JSON.stringify({
                       expDate: expiryDate,
                     }),
-
                   },
-
                 ).then(() => {
                   setUpdateModalVisible(false);
                   fetchCompetencies();
@@ -186,6 +201,9 @@ export default function CPDListScreen() {
                   `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies/${selectedCompetence.id}`,
                   {
                     method: "DELETE",
+                    headers: {
+                      Authorization: `Bearer ${user.token}`,
+                    },
                   },
                 ).then(() => {
                   setUpdateModalVisible(false);
@@ -199,22 +217,6 @@ export default function CPDListScreen() {
           <Pressable
             style={[styles.button, { backgroundColor: "lightblue" }]}
             onPress={() => setUpdateModalVisible(false)}
-          >
-            <Text>Go back</Text>
-          </Pressable>
-        </View>
-      </Modal>
-
-      // Error Modal to display an error message when fetching competencies fails
-      <Modal
-        visible={error}
-        onRequestClose={() => setError(false)}    
-      >
-        <View style={styles.container}>
-          <Text style={styles.title}>Error fetching competencies.</Text>
-          <Pressable
-            style={[styles.button, { backgroundColor: "lightblue" }]}
-            onPress={() => setError(false)}
           >
             <Text>Go back</Text>
           </Pressable>
