@@ -123,6 +123,9 @@ export default function CPDListScreen() {
           Error fetching competencies. Please try again later. {error}
         </Text>
       )}
+      {!isLoading && competencies.length === 0 && (
+        <Text style={[styles.title, { marginTop: 20 }]}>No competencies found.</Text>
+      )}
       {/* FlatList to display the list of competencies */}
       <FlatList
         showsVerticalScrollIndicator={false}
