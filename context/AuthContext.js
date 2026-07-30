@@ -1,4 +1,5 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
+import * as SecureStore from "expo-secure-store";
 
 export const AuthContext = createContext();
 
@@ -17,6 +18,17 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
   });
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await SecureStore.getItemAsync("user");
+      if (user) {
+        dispatch({ type: "LOGIN", payload: JSON.parse(user) });
+      }
+    };
+    fetchUser();
+  }, []);
+
   console.log("AuthContext state:", state);
 
   return (

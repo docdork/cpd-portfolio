@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, Pressable, Modal, TextInput } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 import styles from "../styles";
 import Logo from "../Components/Logo";
@@ -12,14 +14,13 @@ type RootStackParamList = {
 };
 
 export default function HomeScreen() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const logout = () => {
-    // Handle logout logic here, e.g., clearing user data, resetting state, etc.
-    console.log("User logged out");
-    setLoggedIn(false);
-  };
+  const { user } = useAuthContext();
+  const loggedIn = !!user;
+
+  const { logout } = useLogout();
 
   return (
     <View style={styles.container}>
@@ -35,6 +36,10 @@ export default function HomeScreen() {
       <Text style={styles.description}>
         Use the menu in the top left corner to navigate.
       </Text>
+
+      <Text style={[styles.subtitle, { marginTop: 20, color: loggedIn ? "green" : "red" }]}>
+        {user ? `Logged in as ${user.email}` : "You are not logged in."}
+      </Text>
       <Pressable
         onPress={() => {
           if (loggedIn) {
@@ -43,7 +48,6 @@ export default function HomeScreen() {
           if (!loggedIn) {
             navigation.navigate("Login");
           }
-
         }}
         style={({ pressed }) => [
           styles.button,
@@ -53,19 +57,21 @@ export default function HomeScreen() {
         <Text style={styles.buttonText}>{loggedIn ? "Logout" : "Login"}</Text>
       </Pressable>
       {!loggedIn && (
-      <Pressable
-        style={({ pressed }) => [
-          styles.button,
-          { backgroundColor: pressed ? "#023f4e" : "#047726" },
-        ]}
-        onPress={() => {
-          // Navigate to the SignUp screen when the button is pressed
-          navigation.navigate("SignUp");
-        }}
-      >
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </Pressable>
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            { backgroundColor: pressed ? "#023f4e" : "#047726" },
+          ]}
+          onPress={() => {
+            // Navigate to the SignUp screen when the button is pressed
+            navigation.navigate("SignUp");
+          }}
+        >
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </Pressable>
       )}
+
+      
       <StatusBar style="auto" />
     </View>
   );

@@ -7,4 +7,5 @@ export type Routes = {
   CPDList: undefined;
   SignUp: undefined;
   Login: undefined;
+  Logout: undefined;
 };

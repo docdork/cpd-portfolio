@@ -7,7 +7,6 @@ import {
   Platform,
 } from "react-native";
 import styles from "../styles";
-import { useNavigation } from "@react-navigation/native";
 import validate from "react-native-email-validator";
 import { useSignup } from "../hooks/useSignup";
 
