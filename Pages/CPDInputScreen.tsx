@@ -75,10 +75,46 @@ export default function CPDInputScreen() {
             value="Advanced Life Support"
           />
           <Picker.Item
-            label="Paediatric Life Support"
-            value="Paediatric Life Support"
+            label="European Paediatric Life Support"
+            value="European Paediatric Life Support"
           />
           <Picker.Item label="CBRN Clinical" value="CBRN Clinical" />
+          <Picker.Item
+            label="Paediatric Immediate Life Support"
+            value="Paediatric Immediate Life Support"
+          />
+          <Picker.Item
+            label="Emergency Management of Severe Burns"
+            value="Emergency Management of Severe Burns"
+          />
+          <Picker.Item
+            label="Battlefield Advanced Trauma Life Support"
+            value="Battlefield Advanced Trauma Life Support"
+          />
+          <Picker.Item
+            label="MOSTT"
+            value="MOSTT"
+          />
+          <Picker.Item
+            label="MIMMS"
+            value="MIMMS"
+          />
+          <Picker.Item
+            label="Advanced Trauma Nursing Course (ATNC)"
+            value="Advanced Trauma Nursing Course (ATNC)"
+          />
+          <Picker.Item
+            label="Infection Prevention & Control (IPC)"
+            value="Infection Prevention & Control (IPC)"
+          />
+          <Picker.Item
+            label="Manual Handling"
+            value="Manual Handling"
+          />
+          <Picker.Item
+            label="Safeguarding L3"
+            value="Safeguarding L3"
+          />
         </Picker>
       </View>
       <Text style={styles.title}>Expiry Date:</Text>
