@@ -10,12 +10,13 @@ import {
 import { Card } from "../Components/Card";
 import styles from "../styles";
 import { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import DateTimePicker, {
   DateType,
   useDefaultStyles,
 } from "react-native-ui-datepicker";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { Routes } from "../router";
 
 interface Competency {
   id: string;
@@ -42,7 +43,7 @@ export default function CPDListScreen() {
 
   const { user } = useAuthContext();
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<Routes>>();
   const defaultStyles = useDefaultStyles();
 
   console.log("User token:", user?.token);
@@ -53,6 +54,11 @@ export default function CPDListScreen() {
   function clearCompetencies() {
     setCompetencies([]);
   }
+
+  const navigateToCPDInputScreen = () => {
+    console.log("Navigating to CPDInputScreen");
+    navigation.navigate("CPDInput");
+  };
 
   // Refresh the competencies list when the screen gains focus
   const refresh = navigation.addListener("focus", () => {
@@ -124,7 +130,20 @@ export default function CPDListScreen() {
         </Text>
       )}
       {!isLoading && competencies.length === 0 && (
-        <Text style={[styles.title, { marginTop: 20 }]}>No competencies found.</Text>
+        <>
+          <Text style={[styles.title, { marginTop: 20 }]}>
+            No competencies found.
+          </Text>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              // navigation.navigate("CPDInputScreen" as never);
+              navigateToCPDInputScreen();
+            }}
+          >
+            <Text>Add Competence</Text>
+          </Pressable>
+        </>
       )}
       {/* FlatList to display the list of competencies */}
       <FlatList
