@@ -10,12 +10,10 @@ import SignUp from "./Pages/SignUp";
 import { ClerkProvider } from "@clerk/expo";
 import { tokenCache } from "@clerk/expo/token-cache";
 import { useAuth, useClerk } from "@clerk/expo";
-import {
-  ActivityIndicator,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import styles from "./styles";
+import UserProfile from "./Pages/UserProfile";
+
 
 const Drawer = createDrawerNavigator<Routes>();
 
@@ -28,7 +26,7 @@ if (!publishableKey) {
 }
 
 function AppNavigator() {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth({ treatPendingAsSignedOut: false });
   const { signOut } = useClerk();
 
   if (!isLoaded) {
@@ -39,78 +37,79 @@ function AppNavigator() {
     );
   }
 
+  console.log("isSignedIn:", isSignedIn);
   return (
-    <View style={styles.container}>
-      {isSignedIn ? (
-        <NavigationContainer>
-          <Drawer.Navigator
-            screenOptions={{
-              headerShown: true,
-              drawerType: "front",
-              headerStyle: { backgroundColor: "#023f4e" },
-              headerTintColor: "#fff",
-              headerTitleStyle: { fontWeight: "bold" },
-              drawerStyle: { backgroundColor: "#023f4e" },
-              drawerActiveTintColor: "#07e549",
-              drawerInactiveTintColor: "#05eeff",
-            }}
-          >
+    <View style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Drawer.Navigator
+          screenOptions={{
+            headerShown: true,
+            drawerType: "front",
+            headerStyle: { backgroundColor: "#023f4e" },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+            drawerStyle: { backgroundColor: "#023f4e" },
+            drawerActiveTintColor: "#07e549",
+            drawerInactiveTintColor: "#05eeff",
+          }}
+        >
+          <Drawer.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ title: "Home" }}
+          />
+
+          {isSignedIn && (
             <Drawer.Screen
-              name="Home"
-              component={HomeScreen}
-              options={{ title: "Home" }}
+              name="CPDInput"
+              component={CPDInputScreen}
+              options={{ title: "CPD Input" }}
             />
+          )}
+          {isSignedIn && (
+            <Drawer.Screen
+              name="CPDList"
+              component={CPDListScreen}
+              options={{ title: "CPD List" }}
+            />
+          )}
 
-            {isSignedIn && (
-              <Drawer.Screen
-                name="CPDInput"
-                component={CPDInputScreen}
-                options={{ title: "CPD Input" }}
-              />
-            )}
-            {isSignedIn && (
-              <Drawer.Screen
-                name="CPDList"
-                component={CPDListScreen}
-                options={{ title: "CPD List" }}
-              />
-            )}
+          {!isSignedIn && (
+            <Drawer.Screen
+              name="Login"
+              component={Login}
+              options={{ title: "Login" }}
+            />
+          )}
+          {!isSignedIn && (
+            <Drawer.Screen
+              name="SignUp"
+              component={SignUp}
+              options={{ title: "Sign Up" }}
+            />
+          )}
+          {isSignedIn && (
+            <Drawer.Screen
+              name="UserProfile"
+              component={UserProfile}
+              options={{ title: "User Profile" }}
+            />
+          )}
+          {isSignedIn && (
+            <Drawer.Screen
+              name="Logout"
+              component={HomeScreen}
+              listeners={{
+                drawerItemPress: () => {
+                  signOut();
+                },
+              }}
+            />
+          )}
+        </Drawer.Navigator>
+      </NavigationContainer>
 
-            {!isSignedIn && (
-              <Drawer.Screen
-                name="Login"
-                component={Login}
-                options={{ title: "Login" }}
-              />
-            )}
-            {!isSignedIn && (
-              <Drawer.Screen
-                name="SignUp"
-                component={SignUp}
-                options={{ title: "Sign Up" }}
-              />
-            )}
-            {isSignedIn && (
-              <Drawer.Screen
-                name="Logout"
-                component={HomeScreen}
-                listeners={{
-                  drawerItemPress: () => {
-                    signOut();
-                  },
-                }}
-              />
-            )}
-          </Drawer.Navigator>
-          <StatusBar style="auto" />
-        </NavigationContainer>
-      ) : (
-        <View style={styles.container}>
-          <Text style={styles.title}>Welcome to the CPD App</Text>
-          <Login />
-          <SignUp />
-        </View>
-      )}
+      <StatusBar style="auto" />
     </View>
   );
 }
@@ -118,7 +117,7 @@ function AppNavigator() {
 export default function App() {
   return (
     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-        <AppNavigator />
+      <AppNavigator />
     </ClerkProvider>
   );
 }

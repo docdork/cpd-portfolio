@@ -8,4 +8,5 @@ export type Routes = {
   SignUp: undefined;
   Login: undefined;
   Logout: undefined;
+  UserProfile: undefined;
 };
