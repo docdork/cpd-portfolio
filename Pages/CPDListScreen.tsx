@@ -15,7 +15,7 @@ import DateTimePicker, {
   DateType,
   useDefaultStyles,
 } from "react-native-ui-datepicker";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuth } from "@clerk/expo";
 import { Routes } from "../router";
 
 interface Competency {
@@ -41,12 +41,11 @@ export default function CPDListScreen() {
   const [expiryDate, setExpiryDate] = useState<DateType>();
   const [error, setError] = useState(false);
 
-  const { user } = useAuthContext();
+  const { getToken } = useAuth();
 
   const navigation = useNavigation<NavigationProp<Routes>>();
   const defaultStyles = useDefaultStyles();
 
-  console.log("User token:", user?.token);
   useEffect(() => {
     setCompetencies([]);
   }, []);
@@ -74,11 +73,16 @@ export default function CPDListScreen() {
   // Function to fetch competencies from the backend API
   async function fetchCompetencies() {
     try {
+      const token = await getToken();
+      if (!token) {
+        throw new Error("No Clerk session token available");
+      }
+
       const response = await fetch(
         `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies`,
         {
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -111,10 +115,8 @@ export default function CPDListScreen() {
   }
 
   useEffect(() => {
-    if (user) {
-      fetchCompetencies();
-    }
-  }, [user]);
+    fetchCompetencies();
+  }, [getToken]);
 
   return (
     <View style={styles.container}>
@@ -190,16 +192,22 @@ export default function CPDListScreen() {
             />
           </View>
           <Pressable
-            onPress={() => {
+            onPress={async () => {
               if (selectedCompetence && expiryDate) {
                 console.log(selectedCompetence.id, expiryDate);
+                const token = await getToken();
+                if (!token) {
+                  setError(true);
+                  return;
+                }
+
                 fetch(
                   `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies/${selectedCompetence.id}`,
                   {
                     method: "PATCH",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: `Bearer ${user.token}`,
+                      Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({
                       expDate: expiryDate,
@@ -217,14 +225,20 @@ export default function CPDListScreen() {
           </Pressable>
           <Pressable
             style={[styles.button, { backgroundColor: "red" }]}
-            onPress={() => {
+            onPress={async () => {
               if (selectedCompetence) {
+                const token = await getToken();
+                if (!token) {
+                  setError(true);
+                  return;
+                }
+
                 fetch(
                   `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies/${selectedCompetence.id}`,
                   {
                     method: "DELETE",
                     headers: {
-                      Authorization: `Bearer ${user.token}`,
+                      Authorization: `Bearer ${token}`,
                     },
                   },
                 ).then(() => {

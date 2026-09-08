@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, Pressable, Modal, TextInput } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import { useLogout } from "../hooks/useLogout";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuth, useClerk, useUser } from "@clerk/expo";
 
 import styles from "../styles";
 import Logo from "../Components/Logo";
@@ -17,10 +16,10 @@ export default function HomeScreen() {
   // const [loggedIn, setLoggedIn] = useState(false);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const { user } = useAuthContext();
-  const loggedIn = !!user;
-
-  const { logout } = useLogout();
+  const { isSignedIn } = useAuth();
+  const { user } = useUser();
+  const { signOut } = useClerk();
+  const loggedIn = Boolean(isSignedIn && user);
 
   return (
     <View style={styles.container}>
@@ -37,13 +36,20 @@ export default function HomeScreen() {
         Use the menu in the top left corner to navigate.
       </Text>
 
-      <Text style={[styles.subtitle, { marginTop: 20, color: loggedIn ? "green" : "red" }]}>
-        {user ? `Logged in as ${user.email}` : "You are not logged in."}
+      <Text
+        style={[
+          styles.subtitle,
+          { marginTop: 20, color: loggedIn ? "green" : "red" },
+        ]}
+      >
+        {user
+          ? `Logged in as ${user.primaryEmailAddress?.emailAddress ?? user.username ?? user.id}`
+          : "You are not logged in."}
       </Text>
       <Pressable
         onPress={() => {
           if (loggedIn) {
-            logout();
+            signOut();
           }
           if (!loggedIn) {
             navigation.navigate("Login");
@@ -71,7 +77,6 @@ export default function HomeScreen() {
         </Pressable>
       )}
 
-      
       <StatusBar style="auto" />
     </View>
   );

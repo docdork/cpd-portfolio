@@ -13,7 +13,7 @@ import DateTimePicker, {
   DateType,
   useDefaultStyles,
 } from "react-native-ui-datepicker";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useAuth } from "@clerk/expo";
 
 import styles from "../styles";
 import { Picker } from "@react-native-picker/picker";
@@ -24,16 +24,21 @@ export default function CPDInputScreen() {
   const [expiryDate, setExpiryDate] = useState<DateType>();
   const [modalVisible, setModalVisible] = useState(false);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
-  const { user } = useAuthContext();
+  const { getToken } = useAuth();
   const submitCPDEntry = async () => {
     try {
+      const token = await getToken();
+      if (!token) {
+        throw new Error("No Clerk session token available");
+      }
+
       const response = await fetch(
         "https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             title: competenceName,
@@ -91,14 +96,8 @@ export default function CPDInputScreen() {
             label="Battlefield Advanced Trauma Life Support"
             value="Battlefield Advanced Trauma Life Support"
           />
-          <Picker.Item
-            label="MOSTT"
-            value="MOSTT"
-          />
-          <Picker.Item
-            label="MIMMS"
-            value="MIMMS"
-          />
+          <Picker.Item label="MOSTT" value="MOSTT" />
+          <Picker.Item label="MIMMS" value="MIMMS" />
           <Picker.Item
             label="Advanced Trauma Nursing Course (ATNC)"
             value="Advanced Trauma Nursing Course (ATNC)"
@@ -107,14 +106,8 @@ export default function CPDInputScreen() {
             label="Infection Prevention & Control (IPC)"
             value="Infection Prevention & Control (IPC)"
           />
-          <Picker.Item
-            label="Manual Handling"
-            value="Manual Handling"
-          />
-          <Picker.Item
-            label="Safeguarding L3"
-            value="Safeguarding L3"
-          />
+          <Picker.Item label="Manual Handling" value="Manual Handling" />
+          <Picker.Item label="Safeguarding L3" value="Safeguarding L3" />
         </Picker>
       </View>
       <Text style={styles.title}>Expiry Date:</Text>
