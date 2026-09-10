@@ -33,7 +33,8 @@ export default function CPDInputScreen() {
       }
 
       const response = await fetch(
-        "https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies",
+        // "https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies",
+        "http://10.197.208.166:4000/api/competencies",
         {
           method: "POST",
           headers: {

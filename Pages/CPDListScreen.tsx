@@ -6,6 +6,7 @@ import {
   Pressable,
   Text,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import { Card } from "../Components/Card";
 import styles from "../styles";
@@ -22,6 +23,7 @@ interface Competency {
   id: string;
   title: string;
   expDate: Date;
+  reflection: string;
 }
 
 interface CompetencyApiItem {
@@ -29,6 +31,7 @@ interface CompetencyApiItem {
   _id?: string;
   title: string;
   expDate: string;
+  reflection?: string;
 }
 
 export default function CPDListScreen() {
@@ -40,6 +43,8 @@ export default function CPDListScreen() {
     useState<Competency | null>(null);
   const [expiryDate, setExpiryDate] = useState<DateType>();
   const [error, setError] = useState(false);
+  const [reflectionModalVisible, setReflectionModalVisible] = useState(false);
+  const [reflectionText, setReflectionText] = useState("");
 
   const { getToken } = useAuth();
 
@@ -55,8 +60,37 @@ export default function CPDListScreen() {
   }
 
   const navigateToCPDInputScreen = () => {
-    console.log("Navigating to CPDInputScreen");
     navigation.navigate("CPDInput");
+  };
+
+  const handleSaveReflection = async () => {
+    if (!selectedCompetence) return;
+    const token = await getToken();
+    if (!token) {
+      setError(true);
+      return;
+    }
+
+    try {
+      await fetch(
+        `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies/${selectedCompetence.id}`,
+        // `http://10.197.208.166:4000/api/competencies/${selectedCompetence.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            reflection: reflectionText,
+          }),
+        },
+      );
+    } finally {
+      setReflectionModalVisible(false);
+      setUpdateModalVisible(false);
+      fetchCompetencies();
+    }
   };
 
   // Refresh the competencies list when the screen gains focus
@@ -80,6 +114,7 @@ export default function CPDListScreen() {
 
       const response = await fetch(
         `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies`,
+        // "http://10.197.208.166:4000/api/competencies",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -103,11 +138,12 @@ export default function CPDListScreen() {
             id: item.id ?? item._id,
             title: item.title,
             expDate: new Date(item.expDate),
+            reflection: item.reflection ?? "",
           }))
           .filter((item): item is Competency => Boolean(item.id))
           .sort((a, b) => a.expDate.getTime() - b.expDate.getTime()),
       );
-      console.log("Fetched competencies:", data);
+      // console.log("Fetched competencies:", data);
     } catch (error) {
       console.error("Error fetching competencies:", error);
       setError(true);
@@ -203,6 +239,7 @@ export default function CPDListScreen() {
 
                 fetch(
                   `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies/${selectedCompetence.id}`,
+                  // `http://10.197.208.166:4000/api/competencies/${selectedCompetence.id}`,
                   {
                     method: "PATCH",
                     headers: {
@@ -235,6 +272,7 @@ export default function CPDListScreen() {
 
                 fetch(
                   `https://cpd-backend-6f7044c48b89.herokuapp.com/api/competencies/${selectedCompetence.id}`,
+                  // `http://10.197.208.166:4000/api/competencies/${selectedCompetence.id}`,
                   {
                     method: "DELETE",
                     headers: {
@@ -255,6 +293,48 @@ export default function CPDListScreen() {
             onPress={() => setUpdateModalVisible(false)}
           >
             <Text>Go back</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.button, { backgroundColor: "lightgreen" }]}
+            onPress={() => {
+              setReflectionText(selectedCompetence?.reflection ?? "");
+              setReflectionModalVisible(true);
+            }}
+          >
+            <Text>Reflection</Text>
+          </Pressable>
+        </View>
+      </Modal>
+
+      {/* Reflection Modal */}
+      <Modal
+        visible={reflectionModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setReflectionModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Reflect Here</Text>
+          <TextInput
+            style={styles.reflectionInput}
+            multiline
+            numberOfLines={4}
+            placeholder="Write your reflection here..."
+            placeholderTextColor="#888"
+            value={reflectionText}
+            onChangeText={setReflectionText}
+          />
+          <Pressable
+            style={[styles.button, { backgroundColor: "green" }]}
+            onPress={() => handleSaveReflection()}
+          >
+            <Text>Save</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.button, { backgroundColor: "darkred" }]}
+            onPress={() => setReflectionModalVisible(false)}
+          >
+            <Text>Cancel</Text>
           </Pressable>
         </View>
       </Modal>

@@ -37,7 +37,7 @@ function AppNavigator() {
     );
   }
 
-  console.log("isSignedIn:", isSignedIn);
+  // console.log("isSignedIn:", isSignedIn);
   return (
     <View style={{ flex: 1 }}>
       <NavigationContainer>

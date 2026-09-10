@@ -202,6 +202,18 @@ confirmationButtons: {
     justifyContent: "center",
     alignItems: "center",
   },
+  reflectionInput: {
+    height: "60%",
+    textAlignVertical: "top",
+    width: "100%",
+    backgroundColor: "#bff4fa",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    fontSize: 16,
+    color: "#000",
+    margin: 10,
+  },
 
 
 });
