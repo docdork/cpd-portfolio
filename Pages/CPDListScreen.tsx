@@ -299,6 +299,7 @@ export default function CPDListScreen() {
             onPress={() => {
               setReflectionText(selectedCompetence?.reflection ?? "");
               setReflectionModalVisible(true);
+              setUpdateModalVisible(false);
             }}
           >
             <Text>Reflection</Text>
