@@ -75,40 +75,63 @@ export default function CPDInputScreen() {
             console.log("Selected Competence:", itemValue);
           }}
         >
-          <Picker.Item label="Select Competence" value="" />
           <Picker.Item
-            label="Advanced Life Support"
-            value="Advanced Life Support"
+            label="Essential Competency Passport (Version 1)"
+            value=""
           />
           <Picker.Item
-            label="European Paediatric Life Support"
-            value="European Paediatric Life Support"
-          />
-          <Picker.Item label="CBRN Clinical" value="CBRN Clinical" />
-          <Picker.Item
-            label="Paediatric Immediate Life Support"
-            value="Paediatric Immediate Life Support"
+            label="Care Certificate and/or Completion of CMT Initial Trade Training (Phase 2) - Once only"
+            value="Care Certificate and/or Completion of CMT Initial Trade Training (Phase 2)"
           />
           <Picker.Item
-            label="Emergency Management of Severe Burns"
-            value="Emergency Management of Severe Burns"
+            label="Disclosure and Barring Service (DBS)Enhanced Disclosure - 3 yearly"
+            value="Disclosure and Barring Service (DBS) Enhanced Disclosure"
           />
           <Picker.Item
-            label="Battlefield Advanced Trauma Life Support"
-            value="Battlefield Advanced Trauma Life Support"
+            label="Basic Life Support - Annual"
+            value="Basic Life Support"
           />
-          <Picker.Item label="MOSTT" value="MOSTT" />
-          <Picker.Item label="MIMMS" value="MIMMS" />
+          <Picker.Item label="Anaphylaxis - Annual" value="Anaphylaxis" />
           <Picker.Item
-            label="Advanced Trauma Nursing Course (ATNC)"
-            value="Advanced Trauma Nursing Course (ATNC)"
+            label="Automated External Defibrillator - Annual"
+            value="Automated External Defibrillator"
           />
           <Picker.Item
-            label="Infection Prevention & Control (IPC)"
-            value="Infection Prevention & Control (IPC)"
+            label="Infection Prevention and Control - Annual"
+            value="Infection Prevention and Control"
           />
-          <Picker.Item label="Manual Handling" value="Manual Handling" />
-          <Picker.Item label="Safeguarding L3" value="Safeguarding L3" />
+          <Picker.Item
+            label="Caldicott Level 1 (Defence Information Management Passport) - 3 yearly"
+            value="Caldicott Level 1 (Defence Information Management Passport)"
+          />
+          <Picker.Item
+            label="Caldicott Level 2 (Data Security Awareness) - Annual"
+            value="Caldicott Level 2 (Data Security Awareness)"
+          />
+          <Picker.Item
+            label="Manual Handling - Annual"
+            value="Manual Handling"
+          />
+          <Picker.Item
+            label="Significant Event Reporting (ASER) - Once only"
+            value="Significant Event Reporting (ASER)"
+          />
+          <Picker.Item
+            label="Healthcare Governance and Assurance - 2 yearly"
+            value="Healthcare Governance and Assurance"
+          />
+          <Picker.Item
+            label="Immunisation and Vaccination Training - 2 yearly"
+            value="Immunisation and Vaccination Training"
+          />
+          <Picker.Item
+            label="Medical Information Systems User (DMICP User) (if not a regular user) - 2 yearly"
+            value="Medical Information Systems User (DMICP User) (if not a regular user)"
+          />
+          <Picker.Item
+            label="Safeguarding Level 2 (adults and children) (includes Level 1) - 3 yearly"
+            value="Safeguarding Level 2 (adults and children) (includes Level 1)"
+          />
         </Picker>
       </View>
       <Text style={styles.title}>Expiry Date:</Text>
