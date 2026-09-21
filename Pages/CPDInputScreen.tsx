@@ -67,6 +67,7 @@ export default function CPDInputScreen() {
       {/* Title and input fields for competence name and expiry date */}
       <Text style={styles.title}>Competence:</Text>
       <View style={styles.inputContainer}>
+        {/* Competence picker */}
         <Picker
           style={styles.picker}
           selectedValue={competenceName}
@@ -134,6 +135,8 @@ export default function CPDInputScreen() {
           />
         </Picker>
       </View>
+
+      {/* Expiry date picker */}
       <Text style={styles.title}>Expiry Date:</Text>
       <View style={styles.datePickerContainer}>
         <DateTimePicker
@@ -153,7 +156,14 @@ export default function CPDInputScreen() {
         disabled={!competenceName || !expiryDate}
         style={({ pressed }) => [
           styles.button,
-          { backgroundColor: pressed ? "#023f4e" : "#047726" },
+          {
+            backgroundColor:
+              !competenceName || !expiryDate
+                ? "#4a4a4a"
+                : pressed
+                  ? "#023f4e"
+                  : "#047726",
+          },
         ]}
         onPress={submitCPDEntry}
       >
